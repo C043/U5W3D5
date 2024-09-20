@@ -25,4 +25,8 @@ public class UtenteService {
         if (found != null) throw new BadRequestException("Utente già esistente");
         return this.utenteRepository.save(new Utente(body.nome(), body.cognome(), body.email(), body.password(), Ruoli.valueOf(body.ruolo())));
     }
+
+    public Utente getUtenteById(int id) {
+        return this.utenteRepository.findById(id).orElseThrow(() -> new NotFoundException("Utente con id: " + id + " non trovato"));
+    }
 }
