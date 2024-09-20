@@ -1,4 +1,4 @@
-package fragnito.U5W3D5.configurations;
+package fragnito.U5W3D5.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
