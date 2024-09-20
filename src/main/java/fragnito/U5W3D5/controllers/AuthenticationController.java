@@ -5,6 +5,7 @@ import fragnito.U5W3D5.exceptions.Validation;
 import fragnito.U5W3D5.payloads.AuthenticationDTO;
 import fragnito.U5W3D5.payloads.NewUserDTO;
 import fragnito.U5W3D5.payloads.RespDTO;
+import fragnito.U5W3D5.payloads.TokenDTO;
 import fragnito.U5W3D5.services.AuthenticationService;
 import fragnito.U5W3D5.services.UtenteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +35,9 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody @Validated AuthenticationDTO body, BindingResult validation) {
+    public TokenDTO login(@RequestBody @Validated AuthenticationDTO body, BindingResult validation) {
         this.validation.validate(validation);
-        return this.authenticationService.generateToken(body);
+        String token = this.authenticationService.generateToken(body);
+        return new TokenDTO(token);
     }
 }
