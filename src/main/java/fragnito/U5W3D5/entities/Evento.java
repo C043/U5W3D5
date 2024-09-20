@@ -3,6 +3,8 @@ package fragnito.U5W3D5.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "eventi")
 @Getter
@@ -16,13 +18,22 @@ public class Evento {
     private int id;
 
     private String titolo;
+    private String descrizione;
+    private LocalDate data;
+    private String location;
     @Column(name = "posti_disponibili")
     private int postiDisponibili;
-    private String location;
 
-    public Evento(String titolo, int postiDisponibili, String location) {
+    @ManyToOne
+    @JoinColumn(name = "utente_id")
+    private Utente utente;
+
+    public Evento(String titolo, String descrizione, LocalDate data, String location, int postiDisponibili, Utente utente) {
         this.titolo = titolo;
-        this.postiDisponibili = postiDisponibili;
+        this.descrizione = descrizione;
+        this.data = data;
         this.location = location;
+        this.postiDisponibili = postiDisponibili;
+        this.utente = utente;
     }
 }
