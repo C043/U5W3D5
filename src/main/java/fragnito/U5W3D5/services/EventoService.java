@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Service
 public class EventoService {
@@ -19,5 +20,9 @@ public class EventoService {
         if (!LocalDate.parse(body.data()).isAfter(LocalDate.now())) throw new BadRequestException("La data impostata è già passata");
         return this.eventoRepository.save(new Evento(body.titolo(), body.descrizione(), LocalDate.parse(body.data()), body.location(), body.postiDisponibili(),
                 currentUtente));
+    }
+
+    public List<Evento> getAllEventi() {
+        return this.eventoRepository.findAll().stream().filter(evento -> evento.getData().isAfter(LocalDate.now())).toList();
     }
 }

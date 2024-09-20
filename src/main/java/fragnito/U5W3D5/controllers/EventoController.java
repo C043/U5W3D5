@@ -14,6 +14,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/eventi")
 public class EventoController {
@@ -30,5 +32,11 @@ public class EventoController {
         this.validation.validate(validation);
         Evento saved = this.eventoService.saveEvento(body, currentUtente);
         return new RespDTO(saved.getId());
+    }
+
+    @GetMapping
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE', 'UTENTE')")
+    public List<Evento> getEventi() {
+        return this.eventoService.getAllEventi();
     }
 }
