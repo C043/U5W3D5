@@ -2,6 +2,7 @@ package fragnito.U5W3D5.payloads;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record NewUserDTO(
@@ -16,6 +17,9 @@ public record NewUserDTO(
         String email,
         @NotNull(message = "La password è obbligatoria")
         @Size(min = 8, max = 20, message = "La password deve avere minimo 8 e massimo 20 caratteri")
-        String password
+        String password,
+        @NotNull(message = "Il ruolo è obbligatorio")
+        @Pattern(regexp = "^(UTENTE|ORGANIZZATORE)$", message = "L'utente può essere UTENTE o ORGANIZZATORE")
+        String ruolo
 ) {
 }

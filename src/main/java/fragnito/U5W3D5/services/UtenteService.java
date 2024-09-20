@@ -1,5 +1,6 @@
 package fragnito.U5W3D5.services;
 
+import fragnito.U5W3D5.entities.Ruoli;
 import fragnito.U5W3D5.entities.Utente;
 import fragnito.U5W3D5.exceptions.BadRequestException;
 import fragnito.U5W3D5.exceptions.NotFoundException;
@@ -22,6 +23,6 @@ public class UtenteService {
     public Utente postUser(NewUserDTO body) {
         Utente found = this.utenteRepository.findByEmail(body.email());
         if (found != null) throw new BadRequestException("Utente già esistente");
-        return this.utenteRepository.save(new Utente(body.nome(), body.cognome(), body.email(), body.password()));
+        return this.utenteRepository.save(new Utente(body.nome(), body.cognome(), body.email(), body.password(), Ruoli.valueOf(body.ruolo())));
     }
 }
