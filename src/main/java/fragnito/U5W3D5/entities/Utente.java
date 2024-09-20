@@ -1,0 +1,29 @@
+package fragnito.U5W3D5.entities;
+
+import jakarta.persistence.*;
+import lombok.*;
+
+@Entity
+@Table(name = "utenti")
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+public class Utente {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Setter(AccessLevel.NONE)
+    private int id;
+
+    private String nome;
+    private String cognome;
+    private String email;
+    private String password;
+
+    public Utente(String nome, String cognome, String email, String password) {
+        this.nome = nome;
+        this.cognome = cognome;
+        this.email = email;
+        this.password = password;
+    }
+}
