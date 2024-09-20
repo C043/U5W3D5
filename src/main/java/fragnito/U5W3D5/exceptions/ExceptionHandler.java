@@ -2,6 +2,7 @@ package fragnito.U5W3D5.exceptions;
 
 import fragnito.U5W3D5.payloads.ErrorsDTO;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.authorization.AuthorizationDeniedException;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -25,6 +26,13 @@ public class ExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsDTO handleBadRequest(BadRequestException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(AuthorizationDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public ErrorsDTO handleForbidden(AuthorizationDeniedException ex) {
+        return new ErrorsDTO("Autorizzazione negata", LocalDateTime.now());
     }
 
     @org.springframework.web.bind.annotation.ExceptionHandler(Exception.class)
