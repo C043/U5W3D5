@@ -17,7 +17,13 @@ public class ExceptionHandler {
 
     @org.springframework.web.bind.annotation.ExceptionHandler(NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorsDTO handleUnauthorized(NotFoundException ex) {
+    public ErrorsDTO handleNotFound(NotFoundException ex) {
+        return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
+    @org.springframework.web.bind.annotation.ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorsDTO handleBadRequest(BadRequestException ex) {
         return new ErrorsDTO(ex.getMessage(), LocalDateTime.now());
     }
 
