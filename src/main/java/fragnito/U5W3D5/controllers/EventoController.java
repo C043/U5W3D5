@@ -39,4 +39,12 @@ public class EventoController {
     public List<Evento> getEventi() {
         return this.eventoService.getAllEventi();
     }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
+    public RespDTO putEvento(@PathVariable int id, @RequestBody @Validated NewEventoDTO body, BindingResult validation, @AuthenticationPrincipal Utente currentUtente) {
+        this.validation.validate(validation);
+        Evento updatedEvent = this.eventoService.updateEvento(id, body, currentUtente);
+        return new RespDTO(updatedEvent.getId());
+    }
 }

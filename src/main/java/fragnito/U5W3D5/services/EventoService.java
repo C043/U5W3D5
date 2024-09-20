@@ -3,6 +3,8 @@ package fragnito.U5W3D5.services;
 import fragnito.U5W3D5.entities.Evento;
 import fragnito.U5W3D5.entities.Utente;
 import fragnito.U5W3D5.exceptions.BadRequestException;
+import fragnito.U5W3D5.exceptions.NotFoundException;
+import fragnito.U5W3D5.exceptions.UnauthorizedException;
 import fragnito.U5W3D5.payloads.NewEventoDTO;
 import fragnito.U5W3D5.repositories.EventoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,5 +26,20 @@ public class EventoService {
 
     public List<Evento> getAllEventi() {
         return this.eventoRepository.findAll().stream().filter(evento -> evento.getData().isAfter(LocalDate.now())).toList();
+    }
+
+    public Evento updateEvento(int id, NewEventoDTO body, Utente currentUtente) {
+        Evento found = this.getEventoById(id);
+        if (found.getUtente().getId() != currentUtente.getId()) throw new UnauthorizedException("Non hai i permessi per modificare questo evento");
+        found.setData(LocalDate.parse(body.data()));
+        found.setLocation(body.location());
+        found.setDescrizione(body.descrizione());
+        found.setTitolo(body.titolo());
+        found.setPostiDisponibili(body.postiDisponibili());
+        return this.eventoRepository.save(found);
+    }
+
+    public Evento getEventoById(int id) {
+        return this.eventoRepository.findById(id).orElseThrow(() -> new NotFoundException("Evento con id: " + id + " non trovato"));
     }
 }
