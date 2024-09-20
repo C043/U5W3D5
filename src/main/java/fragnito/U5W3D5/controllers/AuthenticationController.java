@@ -2,6 +2,7 @@ package fragnito.U5W3D5.controllers;
 
 import fragnito.U5W3D5.entities.Utente;
 import fragnito.U5W3D5.exceptions.Validation;
+import fragnito.U5W3D5.payloads.AuthenticationDTO;
 import fragnito.U5W3D5.payloads.NewUserDTO;
 import fragnito.U5W3D5.payloads.RespDTO;
 import fragnito.U5W3D5.services.AuthenticationService;
@@ -30,5 +31,11 @@ public class AuthenticationController {
         this.validation.validate(validation);
         Utente saved = this.utenteService.postUser(body);
         return new RespDTO(saved.getId());
+    }
+
+    @PostMapping("/login")
+    public String login(@RequestBody @Validated AuthenticationDTO body, BindingResult validation) {
+        this.validation.validate(validation);
+        return this.authenticationService.generateToken(body);
     }
 }
