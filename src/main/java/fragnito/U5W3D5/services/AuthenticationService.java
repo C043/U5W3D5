@@ -17,10 +17,10 @@ public class AuthenticationService {
     @Autowired
     private JWTTools jwtTools;
 
-    public String generateToken(@RequestBody @Validated AuthenticationDTO body){
+    public String generateToken(@RequestBody @Validated AuthenticationDTO body) {
         Utente found = this.utenteService.findByEmail(body.email());
-        if(found.getPassword().equals(body.password())){
-            return jwtTools.createToken(found)
+        if (found.getPassword().equals(body.password())) {
+            return jwtTools.createToken(found);
         } else {
             throw new UnauthorizedException("Credenziali errate");
         }
