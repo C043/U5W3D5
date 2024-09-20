@@ -20,6 +20,9 @@ public class Utente {
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
+    private Ruoli ruolo;
+
     public Utente(String nome, String cognome, String email, String password) {
         this.nome = nome;
         this.cognome = cognome;
