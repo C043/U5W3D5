@@ -10,13 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping("/prenotazioni")
 public class PrenotazioneController {
     @Autowired
@@ -27,7 +23,7 @@ public class PrenotazioneController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAnyAuthorization('UTENTE', 'ORGANIZZATORE')")
+    @PreAuthorize("hasAnyAuthority('UTENTE', 'ORGANIZZATORE')")
     public RespDTO postPrenotazione(@AuthenticationPrincipal Utente currentUtente, @RequestBody PrenotazioneDTO body) {
         Prenotazione newPrenotazione = this.prenotazioneService.savePrenotazione(body, currentUtente);
         return new RespDTO(newPrenotazione.getId());

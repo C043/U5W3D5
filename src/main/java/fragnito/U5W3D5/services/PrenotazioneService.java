@@ -19,10 +19,10 @@ public class PrenotazioneService {
 
     public Prenotazione savePrenotazione(PrenotazioneDTO body, Utente currentUtente) {
         Evento found = this.eventoService.getEventoById(body.id());
-        this.prenotazioneRepository.filterByDataAndUtente(currentUtente.getId(), found.getData()).orElseThrow(() -> new BadRequestException("L'utente ha " +
+        if (this.prenotazioneRepository.filterByDataAndUtente(currentUtente.getId(), found.getData()).isPresent()) throw new BadRequestException("L'utente ha " +
                 "già" +
                 " un" +
-                " evento in programma per la data richiesta"));
+                " evento in programma per la data richiesta");
         return this.prenotazioneRepository.save(new Prenotazione(currentUtente, found));
     }
 }

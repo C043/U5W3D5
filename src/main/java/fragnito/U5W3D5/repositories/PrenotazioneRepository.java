@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface PrenotazioneRepository extends JpaRepository<Prenotazione, Integer> {
     @Query("SELECT p FROM Prenotazione p WHERE p.utente.id = :id AND p.evento.data = :data")
-    Optional<Prenotazione> filterByDataAndUtente(int utenteId, LocalDate data);
+    Optional<Prenotazione> filterByDataAndUtente(int id, LocalDate data);
 }
