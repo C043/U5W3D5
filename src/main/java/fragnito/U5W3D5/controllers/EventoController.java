@@ -47,4 +47,11 @@ public class EventoController {
         Evento updatedEvent = this.eventoService.updateEvento(id, body, currentUtente);
         return new RespDTO(updatedEvent.getId());
     }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvento(@PathVariable int id, @AuthenticationPrincipal Utente currentUtente) {
+        this.eventoService.deleteEvento(id, currentUtente);
+    }
 }
