@@ -42,4 +42,17 @@ public class EventoService {
     public Evento getEventoById(int id) {
         return this.eventoRepository.findById(id).orElseThrow(() -> new NotFoundException("Evento con id: " + id + " non trovato"));
     }
+
+    public void deleteEvento(int id, Utente currentUtente) {
+        Evento found = this.getEventoById(id);
+        if (currentUtente.getId() != found.getUtente().getId()) throw new UnauthorizedException("Non hai i permessi per eliminare questo evento");
+    }
+
+    public List<Evento> getAllUserEvent(Utente currentUtente) {
+        return this.eventoRepository.getAllUserEvents(currentUtente.getId());
+    }
+
+    public List<Evento> getAllAdminEvents(Utente currentUtente) {
+        return this.eventoRepository.findByUtente(currentUtente);
+    }
 }

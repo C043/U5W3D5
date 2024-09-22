@@ -40,11 +40,30 @@ public class EventoController {
         return this.eventoService.getAllEventi();
     }
 
+    @GetMapping("/me")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE', 'UTENTE')")
+    public List<Evento> getUserEvents(@AuthenticationPrincipal Utente currentUtente) {
+        return this.eventoService.getAllUserEvent(currentUtente);
+    }
+
+    @GetMapping("/admin")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
+    public List<Evento> getAdminEvents(@AuthenticationPrincipal Utente currentUtente) {
+        return this.eventoService.getAllAdminEvents(currentUtente);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
     public RespDTO putEvento(@PathVariable int id, @RequestBody @Validated NewEventoDTO body, BindingResult validation, @AuthenticationPrincipal Utente currentUtente) {
         this.validation.validate(validation);
         Evento updatedEvent = this.eventoService.updateEvento(id, body, currentUtente);
         return new RespDTO(updatedEvent.getId());
+    }
+
+    @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteEvento(@PathVariable int id, @AuthenticationPrincipal Utente currentUtente) {
+        this.eventoService.deleteEvento(id, currentUtente);
     }
 }
