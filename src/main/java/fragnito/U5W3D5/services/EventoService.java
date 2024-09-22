@@ -47,4 +47,8 @@ public class EventoService {
         Evento found = this.getEventoById(id);
         if (currentUtente.getId() != found.getUtente().getId()) throw new UnauthorizedException("Non hai i permessi per eliminare questo evento");
     }
+
+    public List<Evento> getAllUserEvent(Utente currentUtente) {
+        return this.eventoRepository.getAllUserEvents(currentUtente.getId());
+    }
 }
