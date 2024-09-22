@@ -4,6 +4,7 @@ import fragnito.U5W3D5.entities.Evento;
 import fragnito.U5W3D5.entities.Prenotazione;
 import fragnito.U5W3D5.entities.Utente;
 import fragnito.U5W3D5.exceptions.BadRequestException;
+import fragnito.U5W3D5.exceptions.UnauthorizedException;
 import fragnito.U5W3D5.payloads.PrenotazioneDTO;
 import fragnito.U5W3D5.repositories.EventoRepository;
 import fragnito.U5W3D5.repositories.PrenotazioneRepository;
@@ -27,6 +28,7 @@ public class PrenotazioneService {
                 "già" +
                 " un" +
                 " evento in programma per la data richiesta");
+        if (found.getPostiDisponibili() == 0) throw new UnauthorizedException("L'evento è al completo");
         found.setPostiDisponibili(found.getPostiDisponibili() - 1);
         this.eventoRepository.save(found);
         return this.prenotazioneRepository.save(new Prenotazione(currentUtente, found));
