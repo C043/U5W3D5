@@ -51,4 +51,8 @@ public class EventoService {
     public List<Evento> getAllUserEvent(Utente currentUtente) {
         return this.eventoRepository.getAllUserEvents(currentUtente.getId());
     }
+
+    public List<Evento> getAllAdminEvents(Utente currentUtente) {
+        return this.eventoRepository.findByUtente(currentUtente);
+    }
 }

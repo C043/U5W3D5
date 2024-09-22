@@ -46,6 +46,12 @@ public class EventoController {
         return this.eventoService.getAllUserEvent(currentUtente);
     }
 
+    @GetMapping("/admin")
+    @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
+    public List<Evento> getAdminEvents(@AuthenticationPrincipal Utente currentUtente) {
+        return this.eventoService.getAllAdminEvents(currentUtente);
+    }
+
     @PutMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('ORGANIZZATORE')")
     public RespDTO putEvento(@PathVariable int id, @RequestBody @Validated NewEventoDTO body, BindingResult validation, @AuthenticationPrincipal Utente currentUtente) {
