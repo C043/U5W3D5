@@ -29,4 +29,11 @@ public class PrenotazioneController {
         return new RespDTO(newPrenotazione.getId());
     }
 
+    @DeleteMapping("/{eventoId}")
+    @PreAuthorize("hasAnyAuthority('UTENTE', 'ORGANIZZATORE')")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePrenotazione(@AuthenticationPrincipal Utente currentUtente, @PathVariable int eventoId) {
+        this.prenotazioneService.deletePrenotazione(currentUtente, eventoId);
+    }
+
 }
